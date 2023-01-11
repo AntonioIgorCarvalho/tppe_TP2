@@ -1,6 +1,7 @@
 import pytest
 from main.cadastro_de_rendimentos import CadastroDeRendimentos
 from main.deducao import Deducoes
+from main.totalDeducoes import TotalDeducoes
 
 @pytest.mark.parametrize("descricao,descricao2,descricao3,valor,valor2,valor3,esperado",
     [
@@ -74,15 +75,16 @@ def testCadastrarDependente(nome1:str,nome2:str,nome3:str,data_nascimento1:str,d
         ("FAPI","Investimento","Mia","10/01/2007","Jorge","10/11/2009",700.50,900.00,379.18,1200.00,3179.68)
     ])
 def testCalculoTotalDeducao(descricao1: str,descricao2: str,nome:str,data_nascimento:str, nome2:str,data_nascimento2:str, valor1: float, valor2: float,valor3: float,valor4: float, esperado:list):
-    
     deducao = Deducoes()
     deducao.cadastrarOutrasDeducoes(descricao1,valor1)
     deducao.cadastrarPrevidenciaOficial(descricao2,valor2)
     deducao.cadastrarDependente(nome,data_nascimento)
     deducao.cadastrarPensaoAlimenticia(valor4)
     deducao.cadastrarDependente(nome2,data_nascimento2)
+
+    totalDeducoes: TotalDeducoes = TotalDeducoes(deducao)
     
-    resultado = deducao.calculoValorTotalDeducoes()
+    resultado = totalDeducoes.calculoValorTotalDeducoes()
     
     esperado = round((valor1 + valor2 + valor3 + valor4),2)
 
