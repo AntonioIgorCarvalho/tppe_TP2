@@ -1,4 +1,5 @@
 from exceptions.exceptions import (DescricaoEmBrancoException,ValorDeducaoInvalidoException,NomeEmBrancoException)
+from .metodos_validacoes import *
 
 class Deducoes:
     
@@ -10,9 +11,9 @@ class Deducoes:
         self.totalValorDeducao: float = 0.0
     
     def cadastrarOutrasDeducoes(self, descricao: str, valor: float) -> None: 
-        if descricao == None or descricao == "":
+        if descricaoInvalida(descricao):
             raise DescricaoEmBrancoException
-        if valor <= 0 or valor == None:
+        if valorInvalido(valor):
             raise ValorDeducaoInvalidoException
            
         deducao:dict = {}
@@ -21,16 +22,16 @@ class Deducoes:
         self.totalValorDeducao += valor
     
     def cadastrarPensaoAlimenticia(self,valor: float) -> None:
-        if valor <= 0 or valor == None:
+        if valorInvalido(valor):
             raise ValorDeducaoInvalidoException
         
         self.pensaoAlimenticia.append(valor)
         self.totalValorDeducao += valor
 
     def cadastrarPrevidenciaOficial(self, descricao: str, valor: float) -> None:
-        if descricao == None or descricao == "":
+        if descricaoInvalida(descricao):
             raise DescricaoEmBrancoException
-        if valor <= 0 or valor == None:
+        if valorInvalido(valor):
             raise ValorDeducaoInvalidoException  
         
         previdencia:dict = {}
